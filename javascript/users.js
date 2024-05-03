@@ -2,7 +2,14 @@ const searchBar = document.querySelector(".search input"),
 searchIcon = document.querySelector(".search button"),
 usersList = document.querySelector(".users-list");
 
+form = document.querySelector(".typing-area");
+incoming_id = form.querySelector(".incoming_id").value;
 
+if(incoming_id != ""){
+  var params = "?incoming_id="+incoming_id;
+}else{
+  var params = "";
+}
 
 searchIcon.onclick = ()=>{
   searchBar.classList.toggle("show");
@@ -35,9 +42,9 @@ searchBar.onkeyup = ()=>{
   xhr.send("searchTerm=" + searchTerm);
 }
 
-setInterval(() =>{
+function getUsersList(){
   let xhr = new XMLHttpRequest();
-  xhr.open("GET", "php/users.php", true);
+  xhr.open("GET", "php/users.php"+params, true);
   xhr.onload = ()=>{
     if(xhr.readyState === XMLHttpRequest.DONE){
         if(xhr.status === 200){
@@ -49,5 +56,9 @@ setInterval(() =>{
     }
   }
   xhr.send();
-}, 500);
+}
+getUsersList();
+setInterval(() =>{
+  getUsersList();
+}, 5000);
 

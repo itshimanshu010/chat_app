@@ -39,7 +39,7 @@ chatBox.onmouseleave = ()=>{
     chatBox.classList.remove("active");
 }
 
-setInterval(() =>{
+function getChats(){
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "php/get-chat.php", true);
     xhr.onload = ()=>{
@@ -55,7 +55,13 @@ setInterval(() =>{
     }
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send("incoming_id="+incoming_id);
-}, 500);
+}
+
+getChats();
+
+setInterval(() =>{
+    getChats();
+}, 5000);
 
 function scrollToBottom(){
     chatBox.scrollTop = chatBox.scrollHeight;
